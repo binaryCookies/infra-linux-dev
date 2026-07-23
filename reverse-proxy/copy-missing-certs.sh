@@ -38,19 +38,19 @@ for domain in "${DOMAINS[@]}"; do
         chmod 644 "${SSL_DIR}/${domain}/fullchain.pem"
         chmod 600 "${SSL_DIR}/${domain}/privkey.pem"
         
-        echo -e "  ${GREEN}✓ Copied${NC}"
+        echo -e "  ${GREEN} Copied${NC}"
         
         # Show cert info
         echo -e "  Expires: $(openssl x509 -in ${SSL_DIR}/${domain}/fullchain.pem -noout -enddate | cut -d= -f2)"
     else
-        echo -e "  ${YELLOW}⚠ No Let's Encrypt cert found${NC}"
+        echo -e "  ${YELLOW} No Let's Encrypt cert found${NC}"
     fi
     echo ""
 done
 
 echo -e "${GREEN}Verifying all SSL certificates:${NC}"
 ls -lh "${SSL_DIR}"/*/fullchain.pem | awk '{print $9}' | sed 's|.*/\([^/]*\)/.*|\1|' | sort | while read domain; do
-    echo -e "  ${GREEN}✓${NC} $domain"
+    echo -e "  ${GREEN} ${NC} $domain"
 done
 
 echo ""

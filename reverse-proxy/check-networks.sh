@@ -6,9 +6,9 @@ echo -e "\n Checking Docker Networks..."
 echo "================================"
 
 echo -e "\n Required Networks:"
-echo "  ✓ frappe_docker_frappe_network"
-echo "  ✓ backend-chatbot-network"
-echo "  ✓ proxy-network (will be created)"
+echo "  frappe_docker_frappe_network"
+echo "  backend-chatbot-network"
+echo "  proxy-network (will be created)"
 
 echo -e "\n Existing Networks:"
 docker network ls --format "table {{.Name}}\t{{.Driver}}\t{{.Scope}}"
