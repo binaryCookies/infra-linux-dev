@@ -1,0 +1,33 @@
+# ============================================
+# Hema Pro Routes
+# ============================================
+upstream hema_pro {
+    server hema-pro-hema-pro-1:3000 max_fails=3 fail_timeout=30s;
+    keepalive 32;
+}
+
+# HTTP → HTTPS redirect  
+server {
+    listen 80;
+    server_name hema-pro.sourri.com;
+    return 301 https://$server_name$request_uri;
+}
+
+# HTTPS
+server {
+    listen 443 ssl http2;
+    server_name hema-pro.sourri.com;
+    
+    ssl_certificate /etc/nginx/ssl/hema-pro.sourri.com/fullchain.pem;
+    ssl_certificate_key /etc/nginx/ssl/hema-pro.sourri.com/privkey.pem;
+    include /etc/nginx/ssl-params.conf;
+    
+    location / {
+        proxy_pass http://hema_pro;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}

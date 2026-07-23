@@ -1,0 +1,38 @@
+# Environment files — NEVER commit these
+.env
+*.env
+!*.env.example
+ssl-service/.env
+
+# Build artifacts
+.build_tag
+*.pid
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Docker generated
+.docker/
+
+# Key and certificate material
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.chain
+
+# Reverse-proxy runtime SSL mount content is host-managed and must never be tracked
+reverse-proxy/ssl/**
