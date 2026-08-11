@@ -12,6 +12,7 @@
 .PHONY: help init status deploy-all down-all
 .PHONY: ssl-up ssl-down ssl-status
 .PHONY: proxy-up proxy-down proxy-restart proxy-status
+.PHONY: monitoring-up monitoring-down monitoring-status monitoring-health
 .PHONY: diagnose chatbot-check recover-chatbot
 
 # Colors
@@ -23,8 +24,9 @@ NC     := \033[0m
 .DEFAULT_GOAL := help
 
 # Paths (server layout)
-SSL_DIR   := ssl-service
-PROXY_DIR := reverse-proxy
+SSL_DIR      := ssl-service
+PROXY_DIR    := reverse-proxy
+MONITORING_DIR := monitoring
 INIT_NETWORKS_SCRIPT := scripts/init-networks.sh
 
 # =============================================================================
@@ -39,17 +41,21 @@ help:
 	@echo "  $(GREEN)make deploy-all$(NC)    Bring up all managed services (ordered)"
 	@echo "  $(GREEN)make down-all$(NC)      Stop all managed services"
 	@echo ""
-	@echo "  $(GREEN)make ssl-up$(NC)        Start ssl-service"
-	@echo "  $(GREEN)make proxy-up$(NC)      Start reverse-proxy nginx"
-	@echo "  $(GREEN)make diagnose$(NC)      Snapshot runtime + timer + port state"
-	@echo "  $(GREEN)make chatbot-check$(NC) Verify chatbot login path (8181/8090/8091)"
+@echo "  $(GREEN)make ssl-up$(NC)              Start ssl-service"
+	@echo "  $(GREEN)make proxy-up$(NC)            Start reverse-proxy nginx"
+	@echo "  $(GREEN)make monitoring-up$(NC)       Start monitoring stack (Prometheus + Grafana)"
+	@echo "  $(GREEN)make monitoring-down$(NC)     Stop monitoring stack"
+	@echo "  $(GREEN)make monitoring-status$(NC)   Show monitoring container status"
+	@echo "  $(GREEN)make monitoring-health$(NC)   Show per-container health summary"
+	@echo "  $(GREEN)make diagnose$(NC)            Snapshot runtime + timer + port state"
+	@echo "  $(GREEN)make chatbot-check$(NC)       Verify chatbot login path (8181/8090/8091)"
 	@echo "                               Requires CHATBOT_TEST_EMAIL + CHATBOT_TEST_PASSWORD"
-	@echo "  $(GREEN)make recover-chatbot$(NC) Ordered recovery: init -> ssl -> proxy -> checks"
+	@echo "  $(GREEN)make recover-chatbot$(NC)     Ordered recovery: init -> ssl -> proxy -> checks"
 	@echo ""
 	@echo "  Per-service:  cd <service>/ && make help"
 	@echo ""
-	@echo "  Services managed here:  ssl-service, erpnext (external ref)"
-	@echo "  Live apps (remote):     chatbot-api, sourri-api, reverse-proxy"
+	@echo "  Services managed here:  ssl-service, reverse-proxy, monitoring"
+	@echo "  Live apps (remote):     chatbot-api, sourri-api"
 	@echo ""
 
 # =============================================================================
@@ -93,6 +99,21 @@ ssl-down:
 
 ssl-status:
 	$(MAKE) -C $(SSL_DIR) status
+
+# =============================================================================
+# MONITORING SHORTCUTS
+# =============================================================================
+monitoring-up:
+	$(MAKE) -C $(MONITORING_DIR) up
+
+monitoring-down:
+	$(MAKE) -C $(MONITORING_DIR) down
+
+monitoring-status:
+	$(MAKE) -C $(MONITORING_DIR) ps
+
+monitoring-health:
+	$(MAKE) -C $(MONITORING_DIR) health
 
 # =============================================================================
 # REVERSE PROXY SHORTCUTS

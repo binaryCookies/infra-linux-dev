@@ -14,7 +14,7 @@ NC='\033[0m' # No Color
 
 # Configuration
 EMAIL="admin@sourri.com"  # Update with your email
-REVERSE_PROXY_DIR="/home/ob1/workspace/applications/reverse-proxy"
+REVERSE_PROXY_DIR="${HOME}/workspace/infrastructure/reverse-proxy"
 SSL_DIR="${REVERSE_PROXY_DIR}/ssl"
 
 # Domains to certify

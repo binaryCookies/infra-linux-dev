@@ -9,7 +9,8 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-SSL_DIR="/home/ob1/workspace/applications/reverse-proxy/ssl"
+
+SSL_DIR="${HOME}/workspace/infrastructure/reverse-proxy/ssl"
 
 echo -e "${GREEN}Copying missing SSL certificates...${NC}"
 echo ""
@@ -34,7 +35,7 @@ for domain in "${DOMAINS[@]}"; do
         sudo cp "/etc/letsencrypt/live/${domain}/privkey.pem" "${SSL_DIR}/${domain}/"
         
         # Fix ownership
-        sudo chown -R ob1:ob1 "${SSL_DIR}/${domain}"
+        sudo chown -R "${USER}:${USER}" "${SSL_DIR}/${domain}"
         chmod 644 "${SSL_DIR}/${domain}/fullchain.pem"
         chmod 600 "${SSL_DIR}/${domain}/privkey.pem"
         

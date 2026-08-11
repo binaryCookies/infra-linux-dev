@@ -121,7 +121,7 @@ else
     ((failed++))
 fi
 
-if docker compose -f ~/workspace/applications/reverse-proxy/docker-compose.yml ps | grep -q "healthy"; then
+if docker compose -f ~/workspace/infrastructure/reverse-proxy/docker-compose.yml ps | grep -q "healthy"; then
     echo -e "${GREEN} Nginx health check passing${NC}"
     ((passed++))
 else
@@ -152,6 +152,6 @@ if [ $failed -eq 0 ]; then
     exit 0
 else
     echo -e "${RED} Some tests failed. Check logs:${NC}"
-    echo "   docker compose -f ~/workspace/applications/reverse-proxy/docker-compose.yml logs nginx"
+    echo "   docker compose -f ~/workspace/infrastructure/reverse-proxy/docker-compose.yml logs nginx"
     exit 1
 fi

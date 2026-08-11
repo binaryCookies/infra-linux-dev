@@ -29,7 +29,7 @@ else
 fi
 
 echo -e "\n Checking Docker Compose Configuration..."
-cd ~/workspace/applications/reverse-proxy
+cd ~/workspace/infrastructure/reverse-proxy
 docker compose config > /dev/null 2>&1
 if [ $? -eq 0 ]; then
     echo "   docker-compose.yml is valid"
