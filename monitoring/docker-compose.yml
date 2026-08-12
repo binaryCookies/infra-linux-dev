@@ -5,6 +5,8 @@ services:
     image: prom/prometheus:v3.13.2
     container_name: monitoring-prometheus
     restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     command:
       - --config.file=/etc/prometheus/prometheus.yml
       - --storage.tsdb.path=/prometheus
@@ -23,11 +25,12 @@ services:
     image: grafana/grafana:13.0.6
     container_name: monitoring-grafana
     restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:3000"
     environment:
       GF_SECURITY_ADMIN_USER: ${GF_ADMIN_USER:-admin}
       GF_SECURITY_ADMIN_PASSWORD: ${GF_ADMIN_PASSWORD:?GF_ADMIN_PASSWORD must be set}
       GF_USERS_ALLOW_SIGN_UP: "false"
-      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /var/lib/grafana/dashboards/infra-dashboard.json
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning:ro
       - ./grafana/provisioning/dashboards:/var/lib/grafana/dashboards:ro
@@ -80,6 +83,8 @@ services:
     image: portainer/portainer-ce:2.44.0
     container_name: monitoring-portainer
     restart: unless-stopped
+    ports:
+      - "127.0.0.1:9443:9443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - portainer_data:/data
