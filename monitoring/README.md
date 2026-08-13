@@ -111,15 +111,15 @@ Before any Session B work, confirm all of the following:
 ## Common operations
 
 ```bash
-make up              # Start stack (requires GF_ADMIN_PASSWORD in env or .env)
-make down            # Stop and remove containers (volumes preserved)
-make restart         # down → up
-make logs            # Tail all service logs
-make ps              # docker compose ps
-make health          # Per-container state summary
-make shell-prometheus  # /bin/sh in prometheus container
-make shell-grafana     # /bin/bash in grafana container
-make prune           # docker system prune -af (confirmation required)
+make up                 # Start stack (requires GF_ADMIN_PASSWORD in env or .env)
+make down               # Stop and remove containers (volumes preserved)
+make restart            # down → up
+make logs               # Tail all service logs
+make ps                 # docker compose ps
+make health             # Per-container state summary
+make shell-prometheus   # /bin/sh in prometheus container
+make shell-grafana      # /bin/bash in grafana container
+make prune              # docker system prune -af (confirmation required)
 ```
 
 ---
@@ -135,11 +135,6 @@ make prune           # docker system prune -af (confirmation required)
 | Pushgateway | `prom/pushgateway:v1.9.0` |
 | Portainer | `portainer/portainer-ce:2.44.0` |
 
-> The session brief specified earlier semver tags (`v2.54`, `v1.8`, `v0.49`, etc.)
-> that no longer exist on their registries.  The tags above are the closest
-> available stable releases as of 2026-08-07.
-
----
 
 ## Troubleshooting
 
